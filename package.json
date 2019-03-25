@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dezhizhang/live/issues"
   },
-  "homepage": "https://github.com/dezhizhang/live#readme"
+  "homepage": "https://github.com/dezhizhang/live#readme",
+  "dependencies": {
+    "node-media-server": "^1.4.14"
+  }
 }
