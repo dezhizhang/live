@@ -9,10 +9,17 @@ const config = {
         ping_timeout:30
     },
     http:{
-        port:8000,
+        port:8082,
         allow_origin:'*'
+    },
+    auth:{
+        play:true,
+        publish:true,
+        secret:'zhangdezhi'
     }
 }
 
 let nms = new NodeMediaServer(config);
 nms.run();
+
+
