@@ -10,7 +10,8 @@ const config = {
     },
     http:{
         port:8082,
-        allow_origin:'*'
+        allow_origin:'*',
+        mediaroot:'media'
     },
     auth:{
         play:true,
