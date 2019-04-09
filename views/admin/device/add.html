@@ -1,0 +1,223 @@
+﻿{{include 'admin/public/header.html'}}
+
+
+<div class="main-container" id="main-container">
+	<div class="main-container-inner">
+
+		{{include 'admin/public/nav.html'}}
+
+
+		<div class="main-content">
+
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						增加设备
+					</h1>
+				</div>
+
+				<!--表格-->
+				<form action="/admin/device/doAdd" id="deviceForm" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-1">设备名称:</label>
+
+						<div class="col-sm-10">
+							<input type="text" name="device_name" id="device_name" placeholder=""
+								class="col-xs-10 col-sm-5">
+							<span class="help-inline col-xs-12 col-sm-7">
+								<span class="red" id="device_name_span"></span>
+								<span class="middle">（*必填）</span>
+							</span>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-2">设备ID:</label>
+
+						<div class="col-sm-10">
+							<input type="text" id="device_id" name="device_id" placeholder=""
+								class="col-xs-10 col-sm-5" />
+								<span class="help-inline col-xs-12 col-sm-7">
+										<span class="red" id="device_name_span"></span>
+										<span class="middle">( 用于识别不同设备 )</span>
+								</span>
+						</div>
+					</div>
+				
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-1">过期时间:</label>
+						<div class="col-sm-10">
+							<input type="text" id="expires_time" name="expires_time" class="col-xs-10 col-sm-5" autocomplete="off" />
+							<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle">( 直播流的过期时间，如果是直播监控，建议时间设置10年或者20年以后 )</span>
+							</span>
+						</div>
+					</div>
+
+				<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-1">流名称:</label>
+
+						<div class="col-sm-10">
+							<input type="text" id="stream_name" name="stream_name" class="col-xs-10 col-sm-5"
+								onkeyup="this.value=this.value.replace(/[^_a-zA-Z]/g,'')"
+								onpaste="this.value=this.value.replace(/[^_a-zA-Z]/g,'')" />
+							<span class="help-inline col-xs-12 col-sm-7">
+								<span class="red" id="stream_name_span"></span>
+								<span class="middle">（*必填 例如:itying） </span>								
+							</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-1">视频封面图:</label>
+
+						
+						<div class="col-sm-10">
+							<input type="file" name="device_pic" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="form-field-1">设备描述:</label>
+
+						<div class="col-sm-10" >
+							<textarea name="device_desc" id="device_desc" cols="54" rows="6"></textarea>
+
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">
+
+						</label>
+
+						<div class="col-sm-10" style="margin-top:10px;">
+							<button type="submit" id="submit" class="btn btn-primary">　提 交　</button>
+						</div>
+
+					</div>
+
+
+
+
+				</form>
+
+
+			</div>
+		</div><!-- /.main-content -->
+
+	</div><!-- /.main-container-inner -->
+
+</div><!-- /.main-container -->
+
+<link rel="stylesheet" href="{{__ROOT__}}/admin/css/jquery-ui-1.10.3.full.min.css" />
+
+<link rel="stylesheet" href="{{__ROOT__}}/admin/css/jquery-ui-timepicker-addon.css" />
+
+
+<script src="{{__ROOT__}}/admin/js/jquery-2.0.3.min.js"></script>
+<script src="{{__ROOT__}}/admin/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<script src="{{__ROOT__}}/admin/js/jquery-ui-timepicker-addon.min.js"></script>
+
+
+<script>
+	$(function () {
+	
+		$("#expires_time").datetimepicker({
+                timeFormat: "HH:mm",
+				dateFormat: "yy-mm-dd",
+				changeMonth: true,
+				changeYear: true
+			});
+			
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		 
+		 /*表单验证*/
+		var isSubmit=false;
+		//设备名称		
+		$("#device_name").blur(function(){
+
+			if($(this).val()==''){
+				$('#device_name_span').html('设备名称不能为空');
+				isSubmit=false;
+			}else{
+
+				$('#device_name_span').html('');
+				isSubmit=true;
+			}
+		})
+
+		//流名称
+		$("#stream_name").blur(function(){
+
+			if($(this).val()==''){
+				$('#stream_name_span').html('流名称不能为空');
+				isSubmit=false;
+			}else{
+				$.get('/admin/device/hasStreamName?stream_name='+$(this).val(),function(result){
+					if(!result.success){
+						$('#stream_name_span').html("error:"+result.message);
+						isSubmit=false;
+					}else{
+						$('#stream_name_span').html('');
+						isSubmit=true;
+					}
+				})
+			}
+			
+		})
+
+		$('#deviceForm').submit(function(){		
+
+			if($("#device_name").val()==''){
+				$('#device_name_span').html('设备称不能为空');
+				alert('设备称不能为空');
+				return false;
+			}			
+			if($("#stream_name").val()==''){
+				$('#stream_name_span').html('流名称不能为空');
+				alert('流名称不能为空');
+				return false;
+			}
+			
+			return isSubmit;
+				
+		})
+
+
+	});
+
+
+
+
+	//配置日期插件
+	jQuery(function ($) {
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '<上月',
+			nextText: '下月>',
+			currentText: '今天',
+			monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+				'七月', '八月', '九月', '十月', '十一月', '十二月'],
+			monthNamesShort: ['一', '二', '三', '四', '五', '六',
+				'七', '八', '九', '十', '十一', '十二'],
+			dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+			dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+			dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'
+		};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+</script>
+
+</body>
+
+</html>

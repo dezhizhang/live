@@ -1,0 +1,22 @@
+.login-layout{
+    background: #428bca;
+}
+.login-layout .widget-box{
+    background-color:#428bca;
+}
+.login-layout .widget-box .widget-main{
+    padding:26px 16px;
+}
+.login-container{
+    padding-top: 80px;
+}
+.header{
+    margin-top:0px;
+    padding-bottom: 12px;
+}
+
+#verify_img{
+    position: relative;
+    left: 10px;
+    bottom: 0px;
+}

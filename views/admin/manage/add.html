@@ -1,0 +1,182 @@
+﻿{{include 'admin/public/header.html'}}
+
+
+<div class="main-container" id="main-container">
+	<div class="main-container-inner">
+
+		{{include 'admin/public/nav.html'}}
+
+
+		<div class="main-content">
+			
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						增加用户
+					</h1>
+				</div>
+
+				<!--表格-->
+				<form action="/admin/manage/doAdd" id="addForm" method="post" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="username">用户名:</label>
+
+						<div class="col-sm-10">
+							<input type="text" id="username"  name="username" class="col-xs-10 col-sm-5" />
+
+							<span class="red" id="username_span"></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="password">密　　码:</label>
+
+						<div class="col-sm-10">
+							<input type="password" id="password"  name="password" class="col-xs-10 col-sm-5" />
+
+							<span class="red" id="password_span"></span>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="rpassword">确认密码:</label>
+
+						<div class="col-sm-10">
+							<input type="password" id="rpassword"  name="rpassword" class="col-xs-10 col-sm-5" />
+							<span class="red" id="rpassword_span"></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" for="rpassword">姓　　名:</label>
+	
+							<div class="col-sm-10">
+								<input type="text" id="name"  name="name" class="col-xs-10 col-sm-5" />
+							</div>
+					</div>
+
+					<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" for="rpassword">地　　址:</label>
+	
+							<div class="col-sm-10">
+								<input type="text" id="address"  name="address" class="col-xs-10 col-sm-5" />
+							</div>
+					</div>
+
+					<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" for="rpassword">手 机 号:</label>
+	
+							<div class="col-sm-10">
+								<input type="text" id="phone"  name="phone" class="col-xs-10 col-sm-5" />
+							</div>
+					</div>
+
+					<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" for="rpassword">年　　费:</label>
+	
+							<div class="col-sm-10">
+								<input type="text" id="year_fee"  name="year_fee" class="col-xs-10 col-sm-5" />
+							</div>
+					</div>
+
+					<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" for="rpassword">设备数量:</label>	
+							<div class="col-sm-10">
+								<input type="text" id="device_num"  name="device_num" class="col-xs-10 col-sm-5" />
+							</div>
+					</div>
+
+					
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right" for="rpassword"></label>
+
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-primary">提交</button>
+						</div>
+
+					</div>
+
+
+				</form>
+
+
+			</div>
+		</div><!-- /.main-content -->
+
+	</div><!-- /.main-container-inner -->
+
+</div><!-- /.main-container -->
+
+<script src="{{__ROOT__}}/admin/js/jquery-2.0.3.min.js"></script>
+<script>
+		$(function(){
+		
+			//设备名称		
+			$("#username").blur(function(){
+				if($(this).val()==''){
+					$('#username_span').html('用户名称不能为空');				
+				}else{
+
+					$.get('/admin/manage/hasUsername?username='+$(this).val(),function(result){
+						if(!result.success){
+							$('#username_span').html(result.message);							
+						}else{
+							$('#username_span').html('');							
+						}
+					})
+
+					$('#username_span').html('');				
+				}
+			})
+
+			$("#password").blur(function(){
+				if($(this).val()==''){
+					$('#password_span').html('密码不能为空');
+				}else if($(this).val().length<6){
+					$('#password_span').html('密码长度不能小于6位');					
+				}else{
+					$('#password_span').html('');
+				}
+			})
+
+			$("#rpassword").blur(function(){
+				if($(this).val()!=$("#password").val()){
+					$('#rpassword_span').html('密码和确认密码不一致');
+				}else{
+					$('#rpassword_span').html('');				
+				}
+			})
+
+			$("#addForm").submit(function(){
+				if($("#username").val()==''){
+					$('#username_span').html('用户名称不能为空');
+					return false;
+				}
+
+				if($("#password").val()==''){
+					$('#password_span').html('密码不能为空');
+					return false;
+				}
+
+				if($("#password").val().length<6){
+					$('#password_span').html('密码长度不能小于6位');
+					return false;
+				}
+				if($("#rpassword").val()==''){
+					$('#rpassword_span').html('密码和确认密码不一致');
+					return false;
+				}
+
+				return true;
+			})
+
+
+			
+		})
+</script>
+
+</body>
+
+</html>

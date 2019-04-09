@@ -1,22 +1,27 @@
 {
-  "name": "live",
+  "name": "koa",
   "version": "1.0.0",
-  "description": "直播系统",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dezhizhang/live.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dezhizhang/live/issues"
-  },
-  "homepage": "https://github.com/dezhizhang/live#readme",
   "dependencies": {
-    "node-media-server": "^1.4.14"
+    "art-template": "^4.12.2",
+    "koa": "^2.5.0",
+    "koa-art-template": "^1.1.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "koa-static": "^4.0.2",
+    "md5": "^2.2.1",
+    "mongodb": "^3.0.4",
+    "mz-modules": "^2.1.0",
+    "node-media-server": "^2.0.1",
+    "silly-datetime": "^0.1.2",
+    "svg-captcha": "^1.3.11"
   }
 }

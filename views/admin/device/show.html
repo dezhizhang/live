@@ -1,0 +1,160 @@
+{{include 'admin/public/header.html'}}
+
+
+<div class="main-container" id="main-container">
+	<div class="main-container-inner">
+
+		{{include 'admin/public/nav.html'}}
+
+
+		<div class="main-content">
+
+			<div class="page-content">
+				<div class="page-header">
+					<h1>
+						直播预览
+					</h1>
+				</div>
+
+				<div class="device_info">
+
+					<p><strong>设备名称：</strong>{{list.device_name}}</p>
+
+
+					<p><strong>设备ID：</strong>{{list.device_id}}</p>
+
+
+					<p><strong>过期时间：</strong>{{list.expires_time  | dateFormat}}</p>
+
+					<p><strong>是否过期：</strong>
+
+
+						{{if list.expires_time>nowDate}}
+							<span class="blue">可用</span>
+						{{else}}
+							<span class="red">不可用-已过期</span>
+						{{/if}}		
+					</p>
+
+
+					<p><strong>RTMP推流地址：</strong>{{list.push_stream_address}}</p>
+
+
+					<p><strong>RTMP拉流地址：</strong>{{list.pull_stream_rtmp_address}}</p>
+
+
+					<p><strong>FlV拉流地址：</strong>{{list.pull_stream_flv_address}}</p>
+
+					<br>
+				
+					<video id="videoElement" poster="/{{list.device_pic}}" style="width: 600px;" controls="controls"></video>
+					
+					<script src="{{__ROOT__}}/admin/js/flv.js"></script>
+
+					<script>
+						if (flvjs.isSupported()) {
+							var videoElement = document.getElementById('videoElement');
+							var flvPlayer = flvjs.createPlayer({
+								type: 'flv',			
+								url:'{{list.pull_stream_flv_address}}'
+							});
+							flvPlayer.attachMediaElement(videoElement);
+							flvPlayer.load();
+							// flvPlayer.play();
+							videoElement.addEventListener("error", function(){
+								console.log('err');
+							});
+							
+						}else{
+							console.log('当前信号中断');
+
+						}						
+					</script>
+					
+					
+				</div>
+
+				
+
+			</div>
+		</div><!-- /.main-content -->
+
+	</div><!-- /.main-container-inner -->
+
+</div><!-- /.main-container -->
+
+<link rel="stylesheet" href="{{__ROOT__}}/admin/css/jquery-ui-1.10.3.full.min.css" />
+
+<link rel="stylesheet" href="{{__ROOT__}}/admin/css/jquery-ui-timepicker-addon.css" />
+
+
+<script src="{{__ROOT__}}/admin/js/jquery-2.0.3.min.js"></script>
+<script src="{{__ROOT__}}/admin/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<script src="{{__ROOT__}}/admin/js/jquery-ui-timepicker-addon.min.js"></script>
+
+
+
+<script>
+	$(function () {
+	
+		$("#expires_time").datetimepicker({
+                timeFormat: "HH:mm",
+				dateFormat: "yy-mm-dd",
+				changeMonth: true,
+				changeYear: true
+			});
+			
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		 
+		 /*表单验证*/
+		var isSubmit=true;
+		//设备名称		
+		$("#device_name").blur(function(){
+			if($(this).val()==''){
+				$('#device_name_span').html('设备名称不能为空');
+				isSubmit=false;
+			}else{
+				$('#device_name_span').html('');
+				isSubmit=true;
+			}
+		})		
+
+		$('#deviceForm').submit(function(){		
+			return isSubmit;			
+		})
+
+
+	});
+
+
+
+
+	//配置日期插件
+	jQuery(function ($) {
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '<上月',
+			nextText: '下月>',
+			currentText: '今天',
+			monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+				'七月', '八月', '九月', '十月', '十一月', '十二月'],
+			monthNamesShort: ['一', '二', '三', '四', '五', '六',
+				'七', '八', '九', '十', '十一', '十二'],
+			dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+			dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+			dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'
+		};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+</script>
+
+</body>
+
+</html>

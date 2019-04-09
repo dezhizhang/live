@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>后台管理系统登录</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- basic styles -->
+		<link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
+		
+		<link rel="stylesheet" href="/admin/css/install.css" />
+		<script src="{{__ROOT__}}/admin/js/jquery-2.0.3.min.js"></script>
+    <script src="{{__ROOT__}}/admin/js/bootstrap.min.js"></script>
+		
+	</head>
+	<body class="login-layout">
+		<div class="main-container">
+			<div class="main-content">
+				
+						<div class="install-container">
+                            <h2 class="header blue lighter bigger center">
+                                    监控直播管理系统安装向导                                    
+                            </h2>                  
+                            
+              <p class="error"></p>
+							<div class="position-relative">
+                                    <form class="form-horizontal" method="POST" id="installForm" action="/install/doInstall">
+
+                                        <fieldset>
+                                                <legend>mongodb数据库服务器信息</legend>
+                                            <div class="form-group">
+                                              <label for="inputEmail3" class="col-sm-3 control-label">数据库地址</label>
+                                              <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="dbHost" name="dbHost" value="localhost:27017">
+
+
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label">数据库名称</label>
+                                                    <div class="col-sm-9">
+                                                      <input type="text" class="form-control" id="dbName" name="dbName" value="mediaserver">                                                     
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label for="inputPassword3" class="col-sm-3 control-label">数据库用户名</label>
+                                              <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="dbUser" name="dbUser" placeholder="数据库无用户名可不填此字段">                                               
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label">数据库密码</label>
+                                                    <div class="col-sm-9">
+                                                      <input type="text" class="form-control" id="dbPassword" name="dbPassword" placeholder="数据库无密码可不填此字段">                                                     
+                                                    </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                                <legend>管理员信息配置</legend>
+                                            
+
+                                                <div class="form-group">
+                                                <label for="inputPassword3" class="col-sm-3 control-label">管理员帐号</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="username" name="username" placeholder="后台管理员帐号">                                               
+                                                </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-3 control-label">管理员密码</label>
+                                                        <div class="col-sm-9">
+                                                        <input type="password" class="form-control" id="password" name="password" placeholder="后台管理员密码">                                                     
+                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-3 control-label">确认密码</label>
+                                                        <div class="col-sm-9">
+                                                        <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="确认密码">                                                     
+                                                        </div>
+                                                </div>
+                                        </fieldset>
+                                           
+
+                                            <div class="form-group">
+                                              <div class="col-sm-10">
+                                                        <button type="button" id="installBtn" class="install-btn btn btn-primary">
+                                                       
+                                                        安装
+                                                      </button>
+                                                      &nbsp;&nbsp;
+                                                      <span class="error"></span>
+                                              </div>
+                                            </div>
+                                          </form>
+							
+							</div><!-- /position-relative -->
+						</div>
+				
+			</div>
+    </div><!-- /.main-container -->
+    
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">程序安装向导</h4>
+          </div>
+          <div class="modal-body" style="text-align: center">
+              <img src="/admin/images/loading.gif" />
+              <br>  
+              <p>正在安装程序请稍后...</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+		<script>
+		
+			$(function(){			
+        
+        var flag=true;
+        //刚进来检测权限
+        $.get('/install/checkFile',function(data){                 
+              if(data.success=="error"){
+                  $(".error").html('Error:请检测module是否有写入权限,修改完文件权限后刷新重试');                
+              }
+        })
+
+
+				$('#installBtn').click(function(){
+            $(".error").html('');
+            var dbHost=$("#dbHost").val();
+            var dbName=$("#dbName").val();					
+            var dbUser=$("#dbUser").val();
+            var dbPassword=$("#dbPassword").val();
+            var username=$("#username").val();
+            var password=$("#password").val();
+            var rpassword=$("#rpassword").val();
+
+
+            if(dbHost==''){              
+                $(".error").html('Error:数据库地址不能为空');
+                return false;
+            }
+            if(username==''){
+                $(".error").html('Error:管理员账户不能为空');
+                return false;
+            }
+
+            if(dbName==''){              
+                $(".error").html('Error:数据库名称不能为空');
+                return false;
+            }   
+            if(password.length<6){
+                $(".error").html('Error:管理员密码长度不能小于6位');
+                return false;
+            }
+            
+            if(password!=rpassword){
+                $(".error").html('Error:管理员密码和确认密码不一致');
+                return false;
+            }
+            
+            $('#myModal').modal('show');           
+
+            $.post('/install/checkMongodb',{
+              dbHost:dbHost,
+              dbName:dbName,
+              dbUser:dbUser,   
+              dbPassword:dbPassword,
+              username:username,
+              password:password
+
+            },function(data){               
+
+                if(data.success=="error"){
+                    $(".error").html('Error:数据库连接失败，请检测数据库配置');
+
+                    $('#myModal').modal('hide');
+
+                    return false;
+                 }else{
+
+                    $.post('/install/doInstall',{
+                        dbHost:dbHost,
+                        dbName:dbName,
+                        dbUser:dbUser,   
+                        dbPassword:dbPassword,
+                        username:username,
+                        password:password
+                    },function(data){
+                      if(data.success=="error"){
+
+                          $(".error").html('Error:安装失败,请按F5刷新后重新填写信息-重试');                         
+                          return false;
+                      }else{
+                          location.href="/install/done";
+                      }
+                    })
+
+                 }
+            })           
+          
+
+				})
+
+				
+			})		
+		</script>	
+</body>
+</html>

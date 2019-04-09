@@ -1,0 +1,107 @@
+.form-horizontal .form-group{
+    min-height: 44px;
+}
+
+/*取消左侧导航选中效果*/
+.nav-list>li.active:after{
+
+    border: none!important;
+}
+
+.nav-list li.active>a:after{
+
+    border: none!important;
+}
+
+/* .form-horizontal .form-group:before, .form-horizontal .form-group:after{
+
+    display: block!important;
+
+    content: '';
+
+    height: 0px;
+
+} */
+
+
+.form-horizontal .form-group:before, .form-horizontal .form-group:after{
+
+    display: none;
+}
+
+
+
+.ui-datepicker{
+
+   width: 300px!important;
+}
+
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{
+
+    width: 30%!important;
+}
+
+.blue{
+    color: blue;
+}
+.red{
+    color: red;
+}
+
+
+/*修改布局*/
+.main-content,.well{
+    margin-top: 46px;
+}
+.main-container-inner .sidebar{
+
+    position:fixed!important;
+    top:46px;
+}
+
+.navbar{
+    position:fixed!important;
+
+    top:0px;
+    width: 100%;
+}
+
+.device_info p{
+
+    line-height: 2;
+    font-size: 14px;
+}
+
+
+.light-blue:hover .user-menu{
+
+    display: block;
+    
+}
+
+.light-blue:hover  .ace-nav li:last-child a [class^="icon-"]{
+    display: none;
+}
+
+#page{
+    float: right;
+}
+
+.sub_header{
+
+    height: 44px;
+    line-height: 44px;
+
+    text-align: center;
+    margin-bottom: 10px;
+    width: 200px;
+    float: right;
+    font-size: 14px;
+}
+
+.sub_header a{
+
+    padding:5px 20px;
+    border:1px solid #eee;
+}
+
