@@ -59,6 +59,6 @@ router.use(index);
 
 //启动路由
 app.use(router.routes()).use(router.allowedMethods());
-app.listen(8008);
+app.listen(8082);
 
 
