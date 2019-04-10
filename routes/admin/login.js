@@ -19,7 +19,7 @@ router.get('/',async (ctx)=>{
 })
 
 router.post('/doLogin', async (ctx)=>{
-    
+
     let username=ctx.request.body.username;
     let password=ctx.request.body.password;
     let code=ctx.request.body.code;
@@ -45,8 +45,6 @@ router.post('/doLogin', async (ctx)=>{
             redirect: '/admin/login'
         })
     }
-
-
 })
 
 
