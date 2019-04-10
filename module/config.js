@@ -8,7 +8,7 @@
 
         dbName: 'cms',                          //数据库名称
 
-        secret:'nodemedia2019myprivatekey1554822958774',             //拿到代码后修改为自己的secret
+        secret:'nodemedia2019myprivatekey1554902468992',             //拿到代码后修改为自己的secret
 
         api_user:'admin',                              //访问流媒体服务器信息的用户名
         
