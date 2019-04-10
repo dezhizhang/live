@@ -1,6 +1,6 @@
 
 const Koa=require('koa'),
-     router=require('koa-router')(),
+    router=require('koa-router')(),
     render = require('koa-art-template'),
     path=require('path'),
     static = require('koa-static'),

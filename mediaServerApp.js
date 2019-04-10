@@ -96,8 +96,6 @@ nms.on('donePublish', async(id, StreamPath, args) => {
   }
 });
 
-
-
 nms.on('postConnect', async(id, args) => {
   if(args.streamPath){
     var stream_name=args.streamPath.slice(6);

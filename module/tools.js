@@ -1,23 +1,15 @@
 /**
  * Created by Administrator on 2018/3/21 0021.
  */
-var md5 = require('md5');
-
-var sd = require('silly-datetime');
-
-var path = require('path');
-
-var fs = require('fs');
-
+const md5 = require('md5');
+const sd = require('silly-datetime');
+const path = require('path');
+const fs = require('fs');
 const mkdirp = require('mz-modules/mkdirp');
-
-
 
 //上传图片的模块
 const multer = require('koa-multer');
 let tools = {
-
-
     multer() {  /*上传图片的配置*/
         var storage = multer.diskStorage({
             destination: async (req, file, cb) => {
@@ -46,23 +38,15 @@ let tools = {
     },
 
     getZeroTime() {
-
         const start = new Date(new Date(new Date().toLocaleDateString()).getTime());
         var d = new Date(start);
         return d.getTime();
-
-
-
-
     },
     getNextZeroTime() {
-
         const end = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1);
         var d = new Date(end);
         return d.getTime();
-    }
-
-    ,
+    },
     getUnixTime(str) {
 
         try {
@@ -77,8 +61,6 @@ let tools = {
             var d = new Date();
             return d.getTime();
         }
-
-
     },
     md5(str) {
         return md5(str)
@@ -113,9 +95,6 @@ let tools = {
 
                     resove('success');
                 }
-
-
-
             })
 
         })
@@ -142,7 +121,6 @@ let tools = {
             })
 
         })
-
 
     },
 
